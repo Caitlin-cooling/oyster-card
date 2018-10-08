@@ -2,6 +2,7 @@ require 'pry'
 
 class Oystercard
   DEFAULT_BALANCE = 0
+  BALANCE_MAXIMUM = 90
   attr_accessor :balance
 
   def initialize
@@ -10,6 +11,7 @@ class Oystercard
 
   def top_up(amount)
     # why @balance and not balance?
+    fail "Exceeded maximum balance of £#{BALANCE_MAXIMUM}" if (@balance + amount > BALANCE_MAXIMUM)
     @balance += amount
   end
 
