@@ -4,6 +4,7 @@ class Oystercard
   DEFAULT_BALANCE = 0
   BALANCE_MAXIMUM = 90
   BALANCE_MINIMUM = 1
+  MINIMUM_FARE = 1
 
   attr_accessor :balance
 
@@ -29,6 +30,7 @@ class Oystercard
 
   def touch_out
     @in_journey = false
+    deduct(MINIMUM_FARE)
   end
 
   def deduct(fare)
