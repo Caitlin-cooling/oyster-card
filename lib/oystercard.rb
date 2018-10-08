@@ -3,10 +3,12 @@ require 'pry'
 class Oystercard
   DEFAULT_BALANCE = 0
   BALANCE_MAXIMUM = 90
+
   attr_accessor :balance
 
   def initialize
     @balance = DEFAULT_BALANCE
+    @in_journey = false
   end
 
   def top_up(amount)
@@ -15,4 +17,15 @@ class Oystercard
     @balance += amount
   end
 
+  def in_journey?
+    @in_journey
+  end
+
+  def touch_in
+    @in_journey = true
+  end
+
+  def touch_out
+    @in_journey = false
+  end
 end
