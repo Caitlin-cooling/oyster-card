@@ -2,7 +2,8 @@ require 'oystercard'
 
 describe Oystercard do
   let(:oystercard) { Oystercard.new }
-  let (:topup10)  { oystercard.top_up(10) }
+  let(:topup10)  { oystercard.top_up(10) }
+  let(:station) { double(:station, entry_station: "Aldgate") }
 
   describe '#balance' do
     it 'has a default balance of 0' do
@@ -36,19 +37,25 @@ describe Oystercard do
     describe '#touch_in' do
       it 'changes in_journey status to true' do
         topup10
-        oystercard.touch_in
+        oystercard.touch_in(station)
         expect(oystercard.in_journey?).to eq true
       end
 
       it 'has a minimum balance' do
-        expect { oystercard.touch_in }. to raise_exception "Insufficient funds. Please top-up."
+        expect { oystercard.touch_in(station) }. to raise_exception "Insufficient funds. Please top-up."
       end
+
+      it 'knows where I have travelled from' do
+        topup10
+        expect(oystercard.touch_in(station.entry_station)).to eq 'Aldgate'
+      end
+
     end
 
     describe '#touch_out' do
       it 'changes in_journey status to true' do
         topup10
-        oystercard.touch_in
+        oystercard.touch_in(station)
         oystercard.touch_out
         expect(oystercard.in_journey?).to eq false
       end
@@ -56,6 +63,13 @@ describe Oystercard do
       it 'deducts the minimum fare when the card is touched out' do
         topup10
         expect { oystercard.touch_out}.to change{ oystercard.balance }.by(-Oystercard::MINIMUM_FARE)
+      end
+
+      it 'forgets the entry_station' do
+        topup10
+        oystercard.touch_in(station)
+        oystercard.touch_out
+        expect(oystercard.entry_station).to eq nil
       end
     end
   end
