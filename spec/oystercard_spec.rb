@@ -90,10 +90,6 @@ describe Oystercard do
     end
   end
 
-context 'when initialized' do
-  it 'has an empty list of journeys' do
-    expect(oystercard.journeys).to eq []
-  end
-end
+
 
 end
