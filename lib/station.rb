@@ -1,9 +1,7 @@
 class Station
 
-attr_reader :entry_station
-
-def entry_station
-  'Aldgate'
+def initialize(name)
+  @name = name
 end
 
 end

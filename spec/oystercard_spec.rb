@@ -3,7 +3,8 @@ require 'oystercard'
 describe Oystercard do
   let(:oystercard) { Oystercard.new }
   let(:topup10)  { oystercard.top_up(10) }
-  let(:station) { double(:station, entry_station: "Aldgate") }
+  let(:station) { double(:station)}
+  let(:exit_station) { double(:station) }
 
   describe '#balance' do
     it 'has a default balance of 0' do
@@ -47,7 +48,7 @@ describe Oystercard do
 
       it 'knows where I have travelled from' do
         topup10
-        expect(oystercard.touch_in(station.entry_station)).to eq 'Aldgate'
+        expect(oystercard.touch_in(station)).to eq station
       end
 
     end
@@ -56,22 +57,43 @@ describe Oystercard do
       it 'changes in_journey status to true' do
         topup10
         oystercard.touch_in(station)
-        oystercard.touch_out
+        oystercard.touch_out(station)
         expect(oystercard.in_journey?).to eq false
       end
 
       it 'deducts the minimum fare when the card is touched out' do
         topup10
-        expect { oystercard.touch_out}.to change{ oystercard.balance }.by(-Oystercard::MINIMUM_FARE)
+        expect { oystercard.touch_out(station)}.to change{ oystercard.balance }.by(-Oystercard::MINIMUM_FARE)
       end
 
       it 'forgets the entry_station' do
         topup10
         oystercard.touch_in(station)
-        oystercard.touch_out
+        oystercard.touch_out(station)
         expect(oystercard.entry_station).to eq nil
       end
+
+      it 'saves the exit station' do
+        topup10
+        oystercard.touch_in(station)
+        oystercard.touch_out(exit_station)
+        expect(oystercard.exit_station).to eq exit_station
+      end
+
+      it 'saves the journey' do
+        topup10
+        oystercard.touch_in(station)
+        oystercard.touch_out(exit_station)
+        expect(oystercard.journeys).to eq [{station => exit_station}]
+      end
+
     end
   end
+
+context 'when initialized' do
+  it 'has an empty list of journeys' do
+    expect(oystercard.journeys).to eq []
+  end
+end
 
 end
