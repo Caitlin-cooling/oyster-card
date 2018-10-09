@@ -1,12 +1,16 @@
 require 'station'
 
 describe Station do
-  let(:station) { Station.new }
+  let(:station) { Station.new("Aldgate", 1) }
 
-  # describe '#entry_station' do
-  #   it 'returns the entry station' do
-  #     expect(station.entry_station).to eq 'Aldgate'
-  #   end
-  # end
+  context 'When initialized' do
+    it 'has a name' do
+      expect(station.name).to eq "Aldgate"
+    end
+    it 'has a zone' do
+      expect(station.zone).to eq 1
+    end
+  end
+
 
 end
