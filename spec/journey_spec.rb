@@ -11,11 +11,32 @@ describe Journey do
     it 'has an empty list of journeys' do
       expect(journey.history).to eq []
     end
-    context 'on tap out' do
+
+    context 'on completed journey' do
       it 'saves the journey' do
-        # oystercard.touch_in(entry_station)
-        # oystercard.touch_out(exit_station)
+        journey.enter(entry_station)
+        journey.leave(exit_station)
+        journey.save
         expect(journey.history).to eq [{entry_station => exit_station}]
+      end
+    end
+
+    describe '#fare' do
+      it 'charges a minimum fare once a journey is saved' do
+        journey.enter(entry_station)
+        journey.leave(exit_station)
+        journey.save
+        expect(journey.fare).to eq Journey::MINIMUM_FARE
+      end
+      it 'charges a penalty fare when there is no entry station' do
+        journey.leave(exit_station)
+        journey.save
+        expect(journey.fare).to eq Journey::PENALTY_FARE
+      end
+      it 'charges a penalty fare when there is no exit station' do
+        journey.enter(entry_station)
+        journey.save
+        expect(journey.fare).to eq Journey::PENALTY_FARE
       end
     end
   end
