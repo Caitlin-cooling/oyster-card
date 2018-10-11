@@ -5,6 +5,10 @@ class Journey
   MINIMUM_FARE = 1
   PENALTY_FARE = 6
 
+  def initialize(log)
+    @log = log
+  end
+
   def fare
     penalty? ? PENALTY_FARE : MINIMUM_FARE
   end
@@ -12,6 +16,7 @@ class Journey
   private
 
   def penalty?
-    entry_station == nil
+    p @log
+    @log.entry_station == nil || @log.exit_station == nil
   end
 end

@@ -5,10 +5,10 @@ describe JourneyLog do
     let(:oystercard) { double(:oystercard) }
     let(:entry_station) { "Aldgate" }
     let(:exit_station) { "Aldgate East"}
-    let(:log) { JourneyLog.new }
+    let(:journey_log) { double(:journey_log)}
+    let(:log) { JourneyLog.new(journey_log) }
 
   it 'initializes with journey' do
-    log = JourneyLog.new
     expect(log).to eq log
   end
 
