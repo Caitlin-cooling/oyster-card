@@ -1,4 +1,7 @@
 require 'pry'
+require_relative 'journey'
+require_relative 'journeylog'
+
 
 class Oystercard
   DEFAULT_BALANCE = 0
@@ -9,7 +12,7 @@ class Oystercard
 
   def initialize
     @balance = DEFAULT_BALANCE
-    @journeys = Journey.new
+    @journeys = JourneyLog.new
   end
 
   def top_up(amount)
