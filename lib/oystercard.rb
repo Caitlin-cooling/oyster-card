@@ -27,7 +27,7 @@ class Oystercard
 
   def touch_out(station)
     @journeys.leave(station)
-    @balance -= @journeys.fare
+    @balance -= @journeys.current_journey.fare # This is bad, how can I do it better?
   end
 
 end

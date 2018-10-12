@@ -16,7 +16,6 @@ describe JourneyLog do
     it 'saves the journey' do
       log.enter(entry_station)
       log.leave(exit_station)
-      log.save
       expect(log.history).to eq [{entry_station => exit_station}]
     end
   end

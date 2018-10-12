@@ -16,7 +16,6 @@ class Journey
   private
 
   def penalty?
-    p @log
     @log.entry_station == nil || @log.exit_station == nil
   end
 end

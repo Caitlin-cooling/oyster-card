@@ -23,8 +23,10 @@ class JourneyLog
 
     def leave(station)
       @exit_station = station
+      save
     end
 
+    # this perhaps needs to be private?
     def save
       @history << {@entry_station => @exit_station}
     end
@@ -33,7 +35,7 @@ class JourneyLog
       @exit_station == nil ? true : false
     end
 
-    private
+    # private
     def current_journey
       @current_journey ||= journey_class.new(self)
     end
